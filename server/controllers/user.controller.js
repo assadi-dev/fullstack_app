@@ -33,9 +33,22 @@ exports.me = function(req, res) {
 
 exports.get_users = function(req, res) {
     try {
-        const users = userModel.findall();
-        res.status(200).json(users);
+        userModel.findAll((query) => {
+            res.status(200).json(query);
+        });
     } catch (error) {
-        console.log(e);
+        console.log(error);
+    }
+};
+
+exports.create_users = function(req, res) {
+    try {
+        const { email, password, role } = req.body;
+        const data = { email, password, role };
+        userModel.add(data, (query) => {
+            res.status(200).json(query);
+        });
+    } catch (error) {
+        console.log(error);
     }
 };

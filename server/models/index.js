@@ -9,6 +9,10 @@ const db = new sqlite3.Database(db_path, sqlite3.OPEN_READWRITE, (err) => {
     console.log("Successful connected to the database");
 });
 
-module.exports = {
-    db,
-};
+db.serialize(function() {
+    db.run(
+        "CREATE TABLE IF NOT EXISTS users(id integer primary key autoincrement,email TEXT NOT NULL UNIQUE, password TEXT, role TEXT)"
+    );
+});
+
+module.exports = db;

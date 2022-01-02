@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const authenticationRoutes = require("./routes/authentication.routes");
 require("./models");
+const userRoutes = require("../server/routes/users.routes");
 //Midlewares
 
 app.use(express.json());
@@ -28,5 +29,6 @@ app.use(helmet());
 
 //Routes
 app.use("/api/auth", authenticationRoutes);
+app.use("/api", userRoutes);
 
 module.exports = app;

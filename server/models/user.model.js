@@ -1,16 +1,28 @@
-const { db } = require("./index");
+const db = require("./index");
 
-exports.findall = function() {
+exports.findAll = function(callback) {
     const sql = `SELECT * FROM users`;
-    db.serialize(function() {
-        db.run(
-            "CREATE TABLE IF NOT EXISTS users(email TEXT, password TEXT, role TEXT)"
-        );
-        db.all(sql, [], (error, rows) => {
+
+    db.all(sql, (error, rows) => {
+        if (error) {
+            callback(error);
+        }
+        callback(rows);
+    });
+};
+
+exports.add = function(data, callback) {
+    const sql = "INSERT INTO users (email, password, role) VALUES (?, ?, ?)";
+
+    const { email, password, role } = data;
+    db.run(sql, [email, password, role], (error, rows) => {
+        try {
             if (error) {
-                console.log(error);
+                throw error.message;
             }
-            callback(rows);
-        });
+            callback({...data, message: "a new user has been added" });
+        } catch (error) {
+            callback(error);
+        }
     });
 };
