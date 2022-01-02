@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const path = require("path");
 const cors = require("cors");
 const authenticationRoutes = require("./routes/authentication.routes");
-
+require("./models");
 //Midlewares
 
 app.use(express.json());

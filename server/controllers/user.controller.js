@@ -1,4 +1,5 @@
 const { jwt_generator } = require("../services/auth.services");
+const userModel = require("../models/user.model");
 
 const user = {
     id: 25,
@@ -25,6 +26,15 @@ exports.login = function(req, res) {
 exports.me = function(req, res) {
     try {
         res.status(200).json(user);
+    } catch (error) {
+        console.log(e);
+    }
+};
+
+exports.get_users = function(req, res) {
+    try {
+        const users = userModel.findall();
+        res.status(200).json(users);
     } catch (error) {
         console.log(e);
     }
